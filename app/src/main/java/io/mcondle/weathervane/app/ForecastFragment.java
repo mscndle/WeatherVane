@@ -1,6 +1,7 @@
 package io.mcondle.weathervane.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        this.setHasOptionsMenu(true);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        List<String> forecastList = new ArrayList<>();
+        List<String> forecastList = new ArrayList<String>();
         forecastList.add("Today - Sunny - 88/63");
         forecastList.add("Tomorrow - Foggy- 70/46");
         forecastList.add("Weds - Cloudy - 72/63");
@@ -81,7 +82,7 @@ public class ForecastFragment extends Fragment {
         forecastList.add("Fri - Foggy - 70/46");
         forecastList.add("Sat - Sunny - 76/68");
 
-        mForecastAdapter = new ArrayAdapter<>(
+        mForecastAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
@@ -94,11 +95,15 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Context context = getActivity().getApplicationContext();
-                CharSequence text = parent.getAdapter().getItem(position).toString();
-                int duration = Toast.LENGTH_SHORT;
+                String forecastText = parent.getAdapter().getItem(position).toString();
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                Intent showDetailIntent = new Intent(context, DetailActivity.class);
+                showDetailIntent.putExtra(Intent.EXTRA_TEXT, forecastText);
+                startActivity(showDetailIntent);
             }
         });
 
