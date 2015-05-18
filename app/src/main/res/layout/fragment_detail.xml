@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="io.mcondle.weathervane.app.DetailActivityFragment"
+    tools:context="io.mcondle.weathervane.app.DetailFragment"
     android:id="@+id/detailLayout">
 
     <!--Day and date-->
@@ -32,8 +32,8 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:orientation="vertical" >
 
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="18"
-                android:textSize="@dimen/abc_text_size_display_4_material"
+                android:textSize="@dimen/abc_text_size_display_3_material"
                 android:id="@+id/maxTempTextView" />
 
             <TextView
@@ -50,15 +50,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="12"
-                android:textSize="@dimen/abc_text_size_display_3_material"
+                android:textSize="@dimen/abc_text_size_display_2_material"
                 android:id="@+id/minTempTextView"/>
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:orientation="vertical" >
 
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="4"
-                android:id="@+id/weatherImage"/>
+                android:id="@+id/weatherImageView"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:text="Clear"
-                android:id="@+id/dayTypeTextView"/>
+                android:id="@+id/weatherTextView"/>
 
         </LinearLayout>
         
@@ -95,6 +95,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/humidityTextView"
             android:text="81 %"/>
 
     </LinearLayout>
@@ -112,6 +113,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/pressureTextView"
             android:text="1017 hPa"/>
 
     </LinearLayout>
@@ -129,6 +131,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/windTextView"
             android:text="2 km/h NW"/>
 
     </LinearLayout>
