@@ -3,6 +3,7 @@ package io.mcondle.weathervane.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -84,18 +85,36 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-//            String url = "http://api.openweathermap.org/data/2.5/forecast/daily?q=10010&mode=json&units=metric&cnt=7";
             Log.i(LOG_TAG, "clicked Refresh");
             updateWeather();
 
         } else if (id == R.id.action_settings) {
-
             Log.i(LOG_TAG, "clicked Settings");
 
             Intent intent = new Intent(getActivity().getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_map_location) {
+            Log.i(LOG_TAG, "clicked map location");
+
+            //get user's location pref
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String postCode = sharedPref.getString(getString(R.string.pref_location_key),
+                    getString(R.string.pref_location_defValue));
+
+//            Uri location = Uri.parse("geo:0,0?q=" + postCode);
+            Uri location = Uri.parse("geo:?q=" + postCode + ", United States");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+
+            if ((mapIntent.resolveActivity(getActivity().getPackageManager())) != null) {
+                Log.v(LOG_TAG, "This intent can be handled by the system");
+                startActivity(mapIntent);
+            } else {
+                Log.v(LOG_TAG, "mapIntent cannot be handled: " + mapIntent.toString());
+            }
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 

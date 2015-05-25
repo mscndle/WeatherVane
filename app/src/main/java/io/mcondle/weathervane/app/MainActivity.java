@@ -11,7 +11,9 @@ public class MainActivity extends ActionBarActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(LOG_TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
@@ -20,6 +22,43 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
     }
+
+    @Override
+    public void onPause() {
+        Log.i(LOG_TAG, "onPause called");
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        Log.i(LOG_TAG, "onResume called");
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        Log.i(LOG_TAG, "onStop called");
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        Log.i(LOG_TAG, "onStart called");
+        super.onStart();
+    }
+
+    @Override
+    public void onRestart() {
+        Log.i(LOG_TAG, "onRestart called");
+        super.onRestart();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(LOG_TAG, "onDestroy called");
+        super.onDestroy();
+    }
+
 
     // Removed the code with the menu item from MainActivity
     // Adding all menu code to fragment instead
@@ -46,10 +85,5 @@ public class MainActivity extends ActionBarActivity {
 //
 //        return super.onOptionsItemSelected(item);
 //    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
 }

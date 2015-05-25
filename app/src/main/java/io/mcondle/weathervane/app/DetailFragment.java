@@ -3,6 +3,8 @@ package io.mcondle.weathervane.app;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -20,7 +23,8 @@ import android.widget.TextView;
 public class DetailFragment extends Fragment {
 
     private final String LOG_TAG = DetailFragment.class.getSimpleName();
-
+//    private final String APP_HASHTAG = " #" + getActivity().getApplicationContext().getApplicationInfo().packageName;
+    private String mForecastString;
 
     public DetailFragment()  {
     }
@@ -34,6 +38,35 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_detail_fragment, menu);
+
+
+        MenuItem menuItem = menu.findItem(R.id.action_share);   //retrieve the share menu item
+        //get the action provider
+        ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+        //add an intent to the ShareActionProvider
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareActionIntent());
+        } else {
+            Log.d(LOG_TAG, "Share action provider is null");
+        }
+    }
+
+    private Intent createShareActionIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+
+        if (mForecastString == null) {
+            Toast warningToast = new Toast(getActivity());
+            warningToast.setText("mForecastString is null");
+            warningToast.show();
+        } else {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    mForecastString + " #WeatherVane");
+        }
+
+        return shareIntent;
     }
 
     @Override
@@ -43,16 +76,18 @@ public class DetailFragment extends Fragment {
         if (id == R.id.action_settings) {
             Log.i(LOG_TAG, "clicked Settings");
 
-            Intent intent = new Intent(getActivity().getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
+            Intent settingsIntent = new Intent(getActivity().getApplicationContext(), SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         //initialize all the text fields
@@ -71,53 +106,60 @@ public class DetailFragment extends Fragment {
 
         Bundle extras = getActivity().getIntent().getExtras();
 
-        //populate fields on page
-        dayTextView.setText(extras.getCharSequence(ForecastFragment.KEY_DAY));
-        dateTextView.setText(extras.getCharSequence(ForecastFragment.KEY_DATE));
-        maxTempTextView.setText(extras.getCharSequence(ForecastFragment.KEY_MAX));
-        minTempTextView.setText(extras.getCharSequence(ForecastFragment.KEY_MIN));
-        weatherTextView.setText(extras.getCharSequence(ForecastFragment.KEY_WEATHER));
-        humidityTextView.setText(extras.getCharSequence(ForecastFragment.KEY_HUMIDITY));
-        pressureTextView.setText(extras.getCharSequence(ForecastFragment.KEY_PRESSURE));
-        windTextView.setText(extras.getCharSequence(ForecastFragment.KEY_WIND));
+        if (extras != null) {
 
-//        TODO: check if Weather enum is required or not?
-        String weatherImg = extras.getString(ForecastFragment.KEY_WEATHER);
+            //populate fields on page
+            dayTextView.setText(extras.getCharSequence(ForecastFragment.KEY_DAY));
+            dateTextView.setText(extras.getCharSequence(ForecastFragment.KEY_DATE));
+            maxTempTextView.setText(extras.getCharSequence(ForecastFragment.KEY_MAX));
+            minTempTextView.setText(extras.getCharSequence(ForecastFragment.KEY_MIN));
+            weatherTextView.setText(extras.getCharSequence(ForecastFragment.KEY_WEATHER));
+            humidityTextView.setText(extras.getCharSequence(ForecastFragment.KEY_HUMIDITY));
+            pressureTextView.setText(extras.getCharSequence(ForecastFragment.KEY_PRESSURE));
+            windTextView.setText(extras.getCharSequence(ForecastFragment.KEY_WIND));
 
-        switch (weatherImg.toUpperCase()) {
+            // TODO: check if Weather enum is required or not?
+            String weatherImg = extras.getString(ForecastFragment.KEY_WEATHER);
 
-            case "CLEAR":
-                weatherImageView.setImageResource(R.drawable.art_clear);
-                break;
+            mForecastString = extras.getCharSequence(ForecastFragment.KEY_DAY).toString() + " "
+                    + extras.getCharSequence(ForecastFragment.KEY_DATE).toString() + " "
+                    + extras.getCharSequence(ForecastFragment.KEY_MAX).toString() + "/"
+                    + extras.getCharSequence(ForecastFragment.KEY_MIN).toString();
 
-            case "CLOUDS":
-                weatherImageView.setImageResource(R.drawable.art_clouds);
-                break;
+            switch (weatherImg.toUpperCase()) {
 
-            case "CLOUDY":
-                weatherImageView.setImageResource(R.drawable.art_clouds);
-                break;
+                case "CLEAR":
+                    weatherImageView.setImageResource(R.drawable.art_clear);
+                    break;
 
-            case "FOG":
-                weatherImageView.setImageResource(R.drawable.art_fog);
-                break;
+                case "CLOUDS":
+                    weatherImageView.setImageResource(R.drawable.art_clouds);
+                    break;
 
-            case "RAIN":
-                weatherImageView.setImageResource(R.drawable.art_rain);
-                break;
+                case "CLOUDY":
+                    weatherImageView.setImageResource(R.drawable.art_clouds);
+                    break;
 
-            case "SNOW":
-                weatherImageView.setImageResource(R.drawable.art_snow);
-                break;
+                case "FOG":
+                    weatherImageView.setImageResource(R.drawable.art_fog);
+                    break;
 
-            case "STORM":
-                weatherImageView.setImageResource(R.drawable.art_storm);
-                break;
+                case "RAIN":
+                    weatherImageView.setImageResource(R.drawable.art_rain);
+                    break;
 
-            default:
-                break;
+                case "SNOW":
+                    weatherImageView.setImageResource(R.drawable.art_snow);
+                    break;
+
+                case "STORM":
+                    weatherImageView.setImageResource(R.drawable.art_storm);
+                    break;
+
+                default:
+                    break;
+            }
         }
-
 
         return rootView;
 

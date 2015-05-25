@@ -8,6 +8,9 @@ import android.view.MenuItem;
 
 public class DetailActivity extends ActionBarActivity {
 
+    //Removing menu code and adding to the fragment
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,9 +21,6 @@ public class DetailActivity extends ActionBarActivity {
                     .commit();
         }
     }
-
-
-    //Removing menu code and adding to the fragment
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
