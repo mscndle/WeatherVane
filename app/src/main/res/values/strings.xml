@@ -34,4 +34,7 @@
         <item>imperial</item>
     </string-array>
 
+    <string name="power_connected">Power connected</string>
+    <string name="headphones_connected">Headphones connected</string>
+
 </resources>

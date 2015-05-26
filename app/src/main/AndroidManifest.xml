@@ -34,6 +34,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.mcondle.weathervane.app.MainActivity" />
         </activity>
+
+        <receiver android:name=".Receiver">
+            <intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>
